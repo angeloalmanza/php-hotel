@@ -10,6 +10,16 @@
     <div class="container mt-4">
         <h1>Lista di hotel</h1>
 
+        <form method="GET" class="mb-4">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="parking" id="parking">
+            <label class="form-check-label" for="parking">
+              Trova gli hotel con parcheggio
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Filtra</button>
+        </form>
+
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
@@ -61,6 +71,12 @@
                 ];
 
                 foreach ($hotels as $hotel) {
+                    $filter_parking = isset($_GET['parking']);
+
+                    if ($filter_parking && !$hotel['parking']) {
+                        continue;
+                    }
+
                     echo "<tr>";
                     foreach ($hotel as $key => $value) {
                         if ($key === 'parking') {

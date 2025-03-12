@@ -11,11 +11,18 @@
         <h1>Lista di hotel</h1>
 
         <form method="GET" class="mb-4">
-        <div class="form-check">
+        <div class="form-check mb-4">
             <input class="form-check-input" type="checkbox" name="parking" id="parking">
             <label class="form-check-label" for="parking">
               Trova gli hotel con parcheggio
+            </label> 
+        </div>
+        <div>
+            <label class="form-label" for="vote">
+              Trova gli hotel in base al voto
             </label>
+            <br>
+            <input class="form-control w-25" type="number" name="vote" id="vote" min="1" max="5">
         </div>
         <button type="submit" class="btn btn-primary mt-3">Filtra</button>
         </form>
@@ -70,10 +77,13 @@
                     ],
                 ];
 
-                foreach ($hotels as $hotel) {
-                    $filter_parking = isset($_GET['parking']);
+                $filter_parking = isset($_GET['parking']);
+                $filter_vote = isset($_GET['vote']) && $_GET['vote'] != '' ? intval($_GET['vote']) : null;
 
+                foreach ($hotels as $hotel) {
                     if ($filter_parking && !$hotel['parking']) {
+                        continue;
+                    } else if ($filter_vote && $hotel['vote'] < $filter_vote) {
                         continue;
                     }
 
